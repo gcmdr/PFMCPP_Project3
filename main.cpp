@@ -215,11 +215,11 @@ Thing 9) I/O
 /*
 Thing 10) Synthesizer
 5 properties:
-    1) Number of Filters (int)
-    2) Effects (std::string)
-    3) Oscillators (int)
-    4) Envelope (std::string)
-    5) IO (std::string)
+    1) Filters
+    2) Effects
+    3) Oscillators
+    4) Envelope
+    5) IO
 3 things it can do:
     1) Create sound
     2) Pitch bend
