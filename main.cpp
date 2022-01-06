@@ -57,59 +57,59 @@ Thing: Car Wash
  */
 
 /*
-Thing 1)
+Thing 1) Stereo system
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) number of speakers
+    2) watts of power
+    3) number of analog inputs
+    4) number of digital inputs
+    5) number of eq bands to adjust 
 3 things it can do:
-    1)
-    2)
-    3)
+    1) play music
+    2) boost bass
+    3) dub tapes
  */
 
 /*
-Thing 2)
+Thing 2) synthesizer
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) number of oscillators
+    2) number of keys
+    3) max number of notes (polyphony)
+    4) number of knobs
+    5) degree of pitch bend
 3 things it can do:
-    1)
-    2)
-    3)
+    1) create waveforms
+    2) arpeggiate chords
+    3) execute sequences
  */
 
 /*
-Thing 3)
+Thing 3) house
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) number of bedrooms
+    2) type of a/c 
+    3) number of bathrooms
+    4) type of roof
+    5) number of carports
 3 things it can do:
-    1)
-    2)
-    3)
+    1) provide shelter
+    2) warm interior
+    3) process sewage
  */
 
 /*
-Thing 4)
+Thing 4) plane
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) number of seats
+    2) type of engine
+    3) number of windows
+    4) cargo capacity
+    5) fuel capacity
 3 things it can do:
-    1)
-    2)
-    3)
+    1) fly
+    2) transport customers
+    3) transport cargo
  */
 
 
