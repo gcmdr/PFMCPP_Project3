@@ -80,75 +80,7 @@ Part1 will be broken up into 5 separate steps
 3) move Thing 5-9 to between your Thing 4 and Thing 10.
 */
 
-/*
-Thing 5)
-5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
-3 things it can do:
-    1)
-    2)
-    3)
- */
 
-/*
-Thing 6)
-5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
-3 things it can do:
-    1)
-    2)
-    3)
- */
-
-/*
-Thing 7)
-5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
-3 things it can do:
-    1)
-    2)
-    3)
- */
-
-/*
-Thing 8)
-5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
-3 things it can do:
-    1)
-    2)
-    3)
- */
-
-/*
-Thing 9)
-5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
-3 things it can do:
-    1)
-    2)
-    3)
- */
 
 
 
@@ -169,17 +101,17 @@ Thing 1) Stereo system
  */
 
 /*
-Thing 2) synthesizer
+Thing 2) military
 5 properties:
-    1) number of oscillators (int) 
-    2) number of keys (int) 
-    3) max number of notes (polyphony) (int) 
-    4) number of knobs (int) 
-    5) degree of pitch bend (float)
+    1) Army
+    2) Navy
+    3) Air Force
+    4) Marines
+    5) Space Force
 3 things it can do:
-    1) create waveforms
-    2) arpeggiate chords
-    3) execute sequences
+    1) Spend Money
+    2) Defend territory
+    3) Invade 
  */
 
 /*
@@ -211,17 +143,87 @@ Thing 4) plane
  */
 
 /*
-Thing 10) Military
+Thing 5) Filter
 5 properties:
-    1) Army
-    2) Navy
-    3) Air Force
-    4) Marines
-    5) Space Force
+    1) slope of filter
+    2) type of filter (std::string)
+    3) filter design (std::string)
+    4) rolloff (double)
+    5) Q (float)
 3 things it can do:
-    1) Spend Money
-    2) Defend territory
-    3) Invade 
+    1) high pass
+    2) low pass
+    3) band pass
+ */
+
+/*
+Thing 6) Effects
+5 properties:
+    1) saturation level (float)
+    2) delay repeats (int)
+    3) reverb decay (float)
+    4) bits crushed (int)
+    5) wet/dry (float)
+3 things it can do:
+    1) distort
+    2) bit crush
+    3) modulate
+ */
+
+/*
+Thing 7) Oscillators
+5 properties:
+    1) Frequency (float)
+    2) Amplitude (float)
+    3) Waveshape (std::string)
+    4) Type of oscillator (str::string)
+    5) Number of oscillators (int)
+3 things it can do:
+    1) Create pitches
+    2) Change tone of pitches
+    3) Control other parameters
+ */
+
+/*
+Thing 8) Envelope
+5 properties:
+    1) Attack (float)
+    2) Sustain (float)
+    3) Decay (float)
+    4) Release (float)
+    5) Hold (float)
+3 things it can do:
+    1) Adjust attack time
+    2) Adjust sustain level
+    3) Adjust release time
+ */
+
+/*
+Thing 9) I/O
+5 properties:
+    1) number of inputs (int)
+    2) number of outputs (int)
+    3) type of midi connection (std::string)
+    4) type of CV (std::string)
+    5) type of USB connection (std::string)
+3 things it can do:
+    1) accept audio
+    2) output audio
+    3) process midi
+ */
+
+/*
+Thing 10) Synthesizer
+5 properties:
+    1) Filter (std::string)
+    2) Effects (std::string)
+    3) Oscillators (int)
+    4) Envelope (std::string)
+    5) IO (std::string)
+3 things it can do:
+    1) Create sound
+    2) Pitch bend
+    3) Process midi
  */
 
 /*
