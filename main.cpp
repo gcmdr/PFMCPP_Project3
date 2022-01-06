@@ -64,31 +64,15 @@ Part1 will be broken up into 5 separate steps
 3) Move the Thing 10 pseudo-code to after your Thing1-4 in the project.
 */
 
-/*
-Thing 10)
-5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
-3 things it can do:
-    1)
-    2)
-    3)
- */
-
-
-
 
 /*
 Thing 1) Stereo system
 5 properties:
-    1) number of speakers
-    2) watts of power
-    3) number of analog inputs
-    4) number of digital inputs
-    5) number of eq bands to adjust 
+    1) number of speakers (int)
+    2) watts of power (float)
+    3) number of analog inputs (int)
+    4) number of digital inputs (int)
+    5) number of eq bands to adjust (int) 
 3 things it can do:
     1) play music
     2) boost bass
@@ -98,11 +82,11 @@ Thing 1) Stereo system
 /*
 Thing 2) synthesizer
 5 properties:
-    1) number of oscillators
-    2) number of keys
-    3) max number of notes (polyphony)
-    4) number of knobs
-    5) degree of pitch bend
+    1) number of oscillators (int) 
+    2) number of keys (int) 
+    3) max number of notes (polyphony) (int) 
+    4) number of knobs (int) 
+    5) degree of pitch bend (float)
 3 things it can do:
     1) create waveforms
     2) arpeggiate chords
@@ -112,11 +96,11 @@ Thing 2) synthesizer
 /*
 Thing 3) house
 5 properties:
-    1) number of bedrooms
-    2) type of a/c 
-    3) number of bathrooms
-    4) type of roof
-    5) number of carports
+    1) number of bedrooms (int) 
+    2) type of a/c  (std::string)
+    3) number of bathrooms (int)
+    4) type of roof (std::string)
+    5) number of carports (int)
 3 things it can do:
     1) provide shelter
     2) warm interior
@@ -126,18 +110,30 @@ Thing 3) house
 /*
 Thing 4) plane
 5 properties:
-    1) number of seats
-    2) type of engine
-    3) number of windows
-    4) cargo capacity
-    5) fuel capacity
+    1) number of seats (int)
+    2) type of engine (std::string)
+    3) number of windows (int)
+    4) cargo capacity (double)
+    5) fuel capacity (float)
 3 things it can do:
     1) fly
     2) transport customers
     3) transport cargo
  */
 
-
+/*
+Thing 10) Military
+5 properties:
+    1) Army
+    2) Navy
+    3) Air Force
+    4) Marines
+    5) Space Force
+3 things it can do:
+    1) Spend Money
+    2) Defend territory
+    3) Invade 
+ */
 
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
