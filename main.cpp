@@ -103,11 +103,11 @@ Thing 1) Stereo system
 /*
 Thing 2) military
 5 properties:
-    1) Army
-    2) Navy
-    3) Air Force
-    4) Marines
-    5) Space Force
+    1) branch (std::string)
+    2) number of bases (int)
+    3) number of warships (int)
+    4) number of planes (int)
+    5) type of weapon (std::string)
 3 things it can do:
     1) Spend Money
     2) Defend territory
@@ -145,7 +145,7 @@ Thing 4) plane
 /*
 Thing 5) Filter
 5 properties:
-    1) slope of filter
+    1) slope of filter (int)
     2) type of filter (std::string)
     3) filter design (std::string)
     4) rolloff (double)
@@ -215,7 +215,7 @@ Thing 9) I/O
 /*
 Thing 10) Synthesizer
 5 properties:
-    1) Filter (std::string)
+    1) Number of Filters (int)
     2) Effects (std::string)
     3) Oscillators (int)
     4) Envelope (std::string)
