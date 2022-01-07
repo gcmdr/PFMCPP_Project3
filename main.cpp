@@ -200,7 +200,7 @@ Thing 1) Stereo system
     3) dub tapes
  */
 
-struct stereoSystem
+struct StereoSystem
 {
     // number of speakers
     int numSpeakers = 2;
