@@ -186,24 +186,25 @@ struct StereoSystem
     int numAnalogInputs = 2;
     int numDigitalInputs = 2;
     int numEQBands = 5;
+    bool subOn = false;
+    const int maxBassLevel = 10;
     int bassLevel = 0;
 
     struct Tape
     {
-        std::string tapeType = "chrome bias";
-        int minPerSide = 30;
-        float percentPlayed = 0.5f;
-        std::string color = "black";
-        bool plasticCase = false;
+        std::string tapeName = "mix";
+        std::string type = "chrome bias";
         float quality = 1.0f;
+        int minPerSide = 30;
+        int positionInMinutes = 0;
 
-        void rewind(float lengthOfTime, bool untilBeginning);
-        void fastForward(float lengthOfTime, bool untilEnd);
+        void rewind(bool beginning, int lengthOfTime);
+        void fastForward(bool end, int lengthOfTime);
         std::string getTitle();
     };
 
     void playMusic(std::string album, int track);
-    void boostBass(int bassBoostAmount, bool subOn);
+    void boostBass(int bassBoostAmount = 5);
     Tape dubTapes(Tape tape1);
 };
 
@@ -212,19 +213,47 @@ void StereoSystem::playMusic(std::string album, int track)
     std::cout << "Now Playing: " << album << ", Track " << track;
 }
 
-void StereoSystem::boostBass(int bassBoostAmount, bool subOn)
+void StereoSystem::boostBass(int bassBoostAmount)
 {
-    if (subOn) bassBoostAmount += 5;
-    bassLevel = bassBoostAmount;
+    if(subOn) bassBoostAmount += 5;
+    if(bassLevel + bassBoostAmount > maxBassLevel) bassLevel = maxBassLevel;
+    else bassLevel += bassBoostAmount;
+}
+
+StereoSystem::Tape StereoSystem::dubTapes(Tape tape1)
+{
+    tape1.quality *= 0.9f;
+    tape1.tapeName += " dub";
+}
+
+void StereoSystem::Tape::rewind(bool beginning, int lengthOfTime)
+{
+    if(beginning) positionInMinutes = 0;
+    else 
+        if(positionInMinutes - lengthOfTime <= 0) positionInMinutes = 0;
+        else positionInMinutes -= lengthOfTime;
+}
+        
+void StereoSystem::Tape::fastForward(bool end, int lengthOfTime)
+{
+    if(end) positionInMinutes = minPerSide;
+    else 
+        if (positionInMinutes + lengthOfTime >= minPerSide) positionInMinutes = minPerSide;
+        else positionInMinutes += lengthOfTime;
+}
+
+std::string StereoSystem::Tape::getTitle()
+{
+ return tapeName;
 }
 
 struct Military
 {
     std::string branchOfMilitary = "Navy";
     int numBases = 127;
-    int numWarships = 27;
-    int numPlanes = 542;
-    std::string typeOfWeapon = "gun";
+    int numSoldiers = 5000;
+    float budget = 10000000.0f;
+    int numReserveSoldiers = 1000;
 
     struct Soldier
     {
@@ -234,28 +263,96 @@ struct Military
         int yearsExperience = 5;
         std::string rank = "corporal";
 
-        void strike(std::string weapon);
+        bool readyForCombat(float requiredWeight, int requiredExperience);
         void constructShelter(int numSoldiers, std::string weatherConditions = "cloudy");
-        bool readyForCombat(bool trainingComplete);
+        void skillsAndRank(std::string mainSkill, std::string rank);
     };
 
     float spendMoney (std::string Contract, float budget=10000000.57f);
-    void defend (float enemyLatitude = 53.4f, float enemyLongitude = 38.2f);
-    void invade (Soldier soldier2, int soldiersAvailable = 100, int weaponsAvailable = 300);
+    void defend (int numEnemySoldiers);
+    bool invade (int numEnemySoldiers, int numEnemyBases);
 };
+
+float Military::spendMoney (std::string Contract, float expense)
+{
+    if(expense > budget) {
+        std::cout << "Not enough money to fulfill contract.";
+        return budget;
+    }
+    else
+    {
+        std::cout << "Contract " << Contract << " approved.";
+        return budget - expense;
+    }
+}
+    
+void Military::defend (int numEnemySoldiers)
+{
+    if(numEnemySoldiers > numSoldiers)
+    {
+        int callUpSoldiers = (numEnemySoldiers - numSoldiers) + 100;
+        if (callUpSoldiers > numReserveSoldiers) callUpSoldiers = numReserveSoldiers;
+        else numReserveSoldiers -= callUpSoldiers; 
+        numSoldiers += callUpSoldiers;
+    }
+    return;
+}
+bool Military::invade (int numEnemySoldiers, int numEnemyBases)
+{
+    if(numEnemyBases > numBases || numEnemySoldiers > numSoldiers) return false;
+    else return true;
+}
+
+bool Military::Soldier::readyForCombat(float requiredWeight, int requiredExperience)
+{
+    if (weight > requiredWeight || yearsExperience < requiredExperience) return false;
+    else return true;
+}
+
+void Military::Soldier::constructShelter(int numSoldiers, std::string weatherConditions)
+{
+    std::cout << "Construct shelter for: " << numSoldiers << " soldiers. Weather conditions: " << weatherConditions;
+}
+
+void Military::Soldier::skillsAndRank(std::string mainSkill, std::string rank)
+{
+    std::cout << "Rank: " << rank; 
+    std::cout << "Skill: " << mainSkill;
+}
 
 struct House
 {
     int numBedrooms = 2;
     std::string typeOfAC = "central";
-    int numBathrooms = 1;
     std::string typeOfRoof = "tile";
-    int numCarports = 2;
+    int currentTemp = 75;
+    bool heatingOn = false;
+    float totalSewageProcessed = 0.0f;
 
-    bool provideShelter(bool roofIntact, bool foundationSolid);
     void heatInterior(int thermostatSetting = 75);
+    void houseCharacteristics();
     void processSewage(float gallonsOfSewage = 14.5, bool septicTankFunctional = true);
 };
+
+void House::heatInterior(int thermostatSetting)
+{
+    if(thermostatSetting < currentTemp) heatingOn = true;
+    else heatingOn = false;
+    return;
+}
+
+void House::houseCharacteristics()
+{
+    std::cout << "Roof type: " << typeOfRoof << ", AC Type: " << typeOfAC;
+    return;
+}
+
+void House::processSewage(float gallonsOfSewage, bool septicTankFunctional)
+{
+    if(septicTankFunctional) totalSewageProcessed += gallonsOfSewage;
+    return;
+}
+    
 
 struct Plane
 {
@@ -278,7 +375,7 @@ struct Filter
     double rolloff = 75;
     float q = 1.52f;
 
-    void highPass(float lowRolloff = 70.0f, int slope = 6);
+    void highPass(float lowRolloff = 70.0f, int slope = -6);
     void lowPass(float highRolloff = 15000.0f, int slope = 12);
     void bandPass(float centerFrequency = 1000.f, float q = 1.25f, float gain = 6.5f);
 };
