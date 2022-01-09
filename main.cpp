@@ -236,16 +236,16 @@ StereoSystem::Tape StereoSystem::dubTapes(Tape tape1)
 void StereoSystem::Tape::rewind(bool beginning, int lengthOfTime)
 {
     if(beginning) 
-        {
+    {
         positionInMinutes = 0;
-        }
+    }
     else 
-        {
+    {
         if(positionInMinutes - lengthOfTime <= 0) 
             positionInMinutes = 0;
         else 
             positionInMinutes -= lengthOfTime;
-        }
+    }
 }
         
 void StereoSystem::Tape::fastForward(bool end, int lengthOfTime)
@@ -298,7 +298,8 @@ struct Military
 
 float Military::spendMoney (std::string Contract, float expense)
 {
-    if(expense > budget) {
+    if(expense > budget) 
+    {
         std::cout << "Not enough money to fulfill contract.";
         return budget;
     }
@@ -397,30 +398,26 @@ struct Plane
     void fly(int flightTime, float engineThrust, bool clearRunway = true);
 };
 
-    bool Plane::transportCargo(double parcelWeight)
-    {
-        if(currentWeight + parcelWeight > cargoCapacity)
-        {
-            return false;
-        }
+bool Plane::transportCargo(double parcelWeight)
+{
+    if(currentWeight + parcelWeight > cargoCapacity)
+         return false;
         
-        currentWeight += parcelWeight;
-        return true;
+    currentWeight += parcelWeight;
+    return true;
         
-    }
+}
 
-    float Plane::sellAlcohol(int totalDrinks, float drinkPrice)
-    {
-        return totalDrinks * drinkPrice;
-    }
+float Plane::sellAlcohol(int totalDrinks, float drinkPrice)
+{
+    return totalDrinks * drinkPrice;
+}
 
-    void Plane::fly(int flightTime, float engineThrust, bool clearRunway)
-    {
-        if (clearRunway)
-        {
-            fuelLevel -= (flightTime * engineThrust);
-        }
-    }
+void Plane::fly(int flightTime, float engineThrust, bool clearRunway)
+{
+    if (clearRunway)
+        fuelLevel -= (flightTime * engineThrust);
+}
 
 struct Filter
 {
