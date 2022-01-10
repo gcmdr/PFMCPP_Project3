@@ -108,9 +108,62 @@ struct CarWash
     You'll need to insert the Person struct from the video in the space below.
  */
 
+struct Person
+{
+    int age;
+    int height;
+    float hairLength;
+    float GPA;
+    unsigned int SATScore;
+    float distanceTraveled = 0;
 
+    struct Foot
+    {
+        int totalSteps = 0;
+        std::string footSide;
+        float sizeOfStep;
 
+        float stepSize();
+        void stepForward();
+    };
 
+    Foot leftFoot;
+    Foot rightFoot;
+
+    void run(float howFast, bool startWithLeftFoot);
+};
+
+void Person::Foot::stepForward()
+{
+    totalSteps++;
+}
+
+float Person::Foot::stepSize()
+{
+    return sizeOfStep;
+}
+
+void Person::run(float howFast, bool startWithLeftFoot)
+{
+    if (startWithLeftFoot)
+    {
+        leftFoot.stepForward();
+        rightFoot.stepForward();
+    }
+    else
+    {
+        rightFoot.stepForward();
+        leftFoot.stepForward();
+    }
+    
+    distanceTraveled += (leftFoot.stepSize() + rightFoot.stepSize()) * (howFast/4);
+    /*
+        Not sure what to do with howFast here. I'm multiplying by the combined step size, 
+        thinking step size was determined at a rate of 4mph, if you run faster your
+        step size increases. I don't think step size linearly increases with speed, 
+        but I know my step size is bigger when I run than when I walk... so that's my attempt.
+    */
+}
 
  /*
  2) provide implementations for the member functions you declared in your 10 user-defined types from the previous video outside of your UDT definitions.
@@ -126,393 +179,461 @@ struct CarWash
  */
 
 
-/*
-Thing 1) Stereo system
-5 properties:
-    1) number of speakers (int)
-    2) watts of power (float)
-    3) number of analog inputs (int)
-    4) number of digital inputs (int)
-    5) number of eq bands to adjust (int) 
-3 things it can do:
-    1) play music
-    2) boost bass
-    3) dub tapes
- */
-
 struct StereoSystem
 {
-    // number of speakers
     int numSpeakers = 2;
-    // watts of power
     float wattsOfPower = 60.0f;
-    // number of analog inputs
     int numAnalogInputs = 2;
-    // number of digital inputs
     int numDigitalInputs = 2;
-    // number of eq bands to adjust
     int numEQBands = 5;
+    bool subOn = false;
+    const int maxBassLevel = 10;
+    int bassLevel = 0;
 
     struct Tape
     {
-        std::string tapeType = "chrome bias";
+        std::string tapeName = "mix";
+        std::string type = "chrome bias";
+        float quality = 1.0f;
         int minPerSide = 30;
-        float percentPlayed = 0.5f;
-        std::string color = "black";
-        bool plasticCase = false; // if not plastic, paper slipcase
+        int positionInMinutes = 0;
 
-        // rewind
-        void rewind(float lengthOfTime, bool untilBeginning);
-        // ff
-        void fastForward(float lengthOfTime, bool untilEnd);
-        // stop
+        void rewind(bool beginning, int lengthOfTime);
+        void fastForward(bool end, int lengthOfTime);
         std::string getTitle();
     };
 
-    // play music
     void playMusic(std::string album, int track);
-    // boost bass
-    void boostBass(int bassBoostAmount, bool subOn);
-    // dub tapes
+    void boostBass(int bassBoostAmount = 5);
     Tape dubTapes(Tape tape1);
+
+    Tape originalTape;
 };
 
-/*
-Thing 2) military
-5 properties:
-    1) branch (std::string)
-    2) number of bases (int)
-    3) number of warships (int)
-    4) number of planes (int)
-    5) type of weapon (std::string)
-3 things it can do:
-    1) Spend Money
-    2) Defend territory
-    3) Invade 
- */
+void StereoSystem::playMusic(std::string album, int track)
+{
+    std::cout << "Now Playing: " << album << ", Track " << track; 
+}
+
+void StereoSystem::boostBass(int bassBoostAmount)
+{
+    if(subOn) 
+        bassBoostAmount += 5;
+
+    if(bassLevel + bassBoostAmount > maxBassLevel) 
+        bassLevel = maxBassLevel;
+    else 
+        bassLevel += bassBoostAmount;
+}
+
+StereoSystem::Tape StereoSystem::dubTapes(Tape tape1)
+{
+    tape1.quality *= 0.9f;
+    tape1.tapeName += " dub";
+    return tape1;
+}
+
+void StereoSystem::Tape::rewind(bool beginning, int lengthOfTime)
+{
+    if(beginning) 
+    {
+        positionInMinutes = 0;
+    }
+    else 
+    {
+        if(positionInMinutes - lengthOfTime <= 0) 
+            positionInMinutes = 0;
+        else 
+            positionInMinutes -= lengthOfTime;
+    }
+}
+        
+void StereoSystem::Tape::fastForward(bool end, int lengthOfTime)
+{
+    if(end) 
+    {
+        positionInMinutes = minPerSide;
+    }
+    else 
+    {
+        if (positionInMinutes + lengthOfTime >= minPerSide) 
+            positionInMinutes = minPerSide;
+        else 
+            positionInMinutes += lengthOfTime;
+    }
+}
+
+std::string StereoSystem::Tape::getTitle()
+{
+    return tapeName;
+}
 
 struct Military
 {
-    // branch (std::string)
     std::string branchOfMilitary = "Navy";
-    // number of bases (int)
     int numBases = 127;
-    // number of warships (int)
-    int numWarships = 27;
-    // number of planes (int)
-    int numPlanes = 542;
-    // type of weapon (std::string)
-    std::string typeOfWeapon = "gun";
+    int numSoldiers = 5000;
+    float budget = 10000000.0f;
+    int numReserveSoldiers = 1000;
 
     struct Soldier
     {
-        // soldier height
         float height = 60.2f;
-        // soldier weight
         float weight = 185.0f;
-        // main skill
         std::string mainSkill = "munitions";
-        // years experience
         int yearsExperience = 5;
-        // rank
         std::string rank = "corporal";
 
-        // strike
-        void strike(std::string weapon);
-        // construct shelter
-        void constructShelter(int numSoldiers, std::string weatherConditions = "cloudy");
-        // ready for combat
-        bool readyForCombat(bool trainingComplete);
-        
+        bool readyForCombat(float requiredWeight, int requiredExperience);
+        void constructShelter(int numberOfSoldiers, std::string weatherConditions = "cloudy");
+        void skillsAndRank(std::string mainSkill, std::string rank);
     };
 
-    // Spend Money
     float spendMoney (std::string Contract, float budget=10000000.57f);
-    // Defend territory
-    void defend (float enemyLatitude = 53.4f, float enemyLongitude = 38.2f);
-    // Invade 
-    void invade (Soldier soldier2, int soldiersAvailable = 100, int weaponsAvailable = 300);
+    void defend (int numEnemySoldiers);
+    bool invade (int numEnemySoldiers, int numEnemyBases);
+
+    Soldier soldier1;
 };
 
-/*
-Thing 3) house
-5 properties:
-    1) number of bedrooms (int) 
-    2) type of a/c  (std::string)
-    3) number of bathrooms (int)
-    4) type of roof (std::string)
-    5) number of carports (int)
-3 things it can do:
-    1) provide shelter
-    2) warm interior
-    3) process sewage
- */
+float Military::spendMoney (std::string Contract, float expense)
+{
+    if(expense > budget) 
+    {
+        std::cout << "Not enough money to fulfill contract.";
+        return budget;
+    }
+    else
+    {
+        std::cout << "Contract " << Contract << " approved.";
+        return budget - expense;
+    }
+}
+    
+void Military::defend (int numEnemySoldiers)
+{
+    if(numEnemySoldiers > numSoldiers)
+    {
+        int callUpSoldiers = (numEnemySoldiers - numSoldiers) + 100;
+        
+        if (callUpSoldiers > numReserveSoldiers) 
+            callUpSoldiers = numReserveSoldiers;
+        else 
+            numReserveSoldiers -= callUpSoldiers; 
+
+        numSoldiers += callUpSoldiers;
+    }
+}
+
+bool Military::invade (int numEnemySoldiers, int numEnemyBases)
+{
+    if(numEnemyBases > numBases || numEnemySoldiers > numSoldiers) 
+        return false;
+    
+    return true;
+}
+
+bool Military::Soldier::readyForCombat(float requiredWeight, int requiredExperience)
+{
+    if (weight > requiredWeight || yearsExperience < requiredExperience) 
+        return false;
+    
+    return true;
+}
+
+void Military::Soldier::constructShelter(int numberOfSoldiers, std::string weatherConditions)
+{
+    std::cout << "Construct shelter for: " << numberOfSoldiers << " soldiers. Weather conditions: " << weatherConditions;
+}
+
+void Military::Soldier::skillsAndRank(std::string primarySkill, std::string currentRank)
+{
+    std::cout << "Rank: " << currentRank; 
+    std::cout << "Skill: " << primarySkill;
+}
 
 struct House
 {
-    // number of bedrooms
     int numBedrooms = 2;
-    // type of a/c
     std::string typeOfAC = "central";
-    // number of bathrooms
-    int numBathrooms = 1;
-    // type of roof
     std::string typeOfRoof = "tile";
-    // number of carports
-    int numCarports = 2;
+    int currentTemp = 75;
+    bool heatingOn = false;
+    float totalSewageProcessed = 0.0f;
 
-    // provide shelter
-    bool provideShelter(bool roofIntact, bool foundationSolid);
-    // warm interior
     void heatInterior(int thermostatSetting = 75);
-    // process sewage
+    void houseCharacteristics();
     void processSewage(float gallonsOfSewage = 14.5, bool septicTankFunctional = true);
 };
 
-/*
-Thing 4) plane
-5 properties:
-    1) number of seats (int)
-    2) type of engine (std::string)
-    3) number of windows (int)
-    4) cargo capacity (double)
-    5) fuel capacity (float)
-3 things it can do:
-    1) fly
-    2) transport customers
-    3) transport cargo
- */
+void House::heatInterior(int thermostatSetting)
+{
+    if(thermostatSetting < currentTemp) 
+        heatingOn = true;
+    
+    heatingOn = false;
+}
+
+void House::houseCharacteristics()
+{
+    std::cout << "Roof type: " << typeOfRoof << ", AC Type: " << typeOfAC;
+}
+
+void House::processSewage(float gallonsOfSewage, bool septicTankFunctional)
+{
+    if(septicTankFunctional) 
+        totalSewageProcessed += gallonsOfSewage;
+}
 
 struct Plane
 {
-    // number of seats
     int numSeats = 240;
-    // type of engine
     std::string typeOfEngine = "turboprop";
-    // number of windows
-    int numWindows = 100;
-    // cargo capacity
     double cargoCapacity = 5000;
-    // fuel capacity
-    float fuelCapacity = 300;
-
-    // fly
-    void fly(float engineThrust, bool clearRunway = true);
-    // transport customers
-    void transportCustomers(int totalPassengers, int totalCrew);
-    // transport cargo
-    void transportCargo(int numParcels, float totalWeight);
+    double currentWeight = 0;
+    float fuelLevel = 5000;
+    
+    bool transportCargo(double parcelWeight);
+    float sellAlcohol(int totalDrinks, float drinkPrice);
+    void fly(int flightTime, float engineThrust, bool clearRunway = true);
 };
 
-/*
-Thing 5) Filter
-5 properties:
-    1) slope of filter (int)
-    2) type of filter (std::string)
-    3) filter design (std::string)
-    4) rolloff (double)
-    5) Q (float)
-3 things it can do:
-    1) high pass
-    2) low pass
-    3) band pass
- */
+bool Plane::transportCargo(double parcelWeight)
+{
+    if(currentWeight + parcelWeight > cargoCapacity)
+         return false;
+        
+    currentWeight += parcelWeight;
+    return true;
+        
+}
+
+float Plane::sellAlcohol(int totalDrinks, float drinkPrice)
+{
+    return totalDrinks * drinkPrice;
+}
+
+void Plane::fly(int flightTime, float engineThrust, bool clearRunway)
+{
+    if (clearRunway)
+        fuelLevel -= (flightTime * engineThrust);
+}
 
 struct Filter
 {
-    // slope of filter
     int filterSlope = -6;
-    // type of filter
-    std::string filterType = "low pass";
-    // filter design
-    std::string filterDesign = "chebyshev";
-    // rolloff
-    double rolloff = 75;
-    // Q
-    float q = 1.52f;
-
-    // high pass
-    void highPass(float lowRolloff = 70.0f, int slope = 6);
-    // low pass
+    std::string activeFilterType = "low pass";
+    float mainFreq = 75.0f;
+    float currentQ = 1.52f;
+    float currentGain = 0.0f;
+    const float maxGain = 20.0f;
+    
+    void highPass(float lowRolloff = 70.0f, int slope = -6);
     void lowPass(float highRolloff = 15000.0f, int slope = 12);
-    // band pass
-    void bandPass(float centerFrequency = 1000.f, float q = 1.25f, float gain = 6.5f);
+    bool isClipping(float changeInGain = 6.5f);
 };
 
-/*
-Thing 6) Effects
-5 properties:
-    1) saturation level (float)
-    2) delay repeats (int)
-    3) reverb decay (float)
-    4) bits crushed (int)
-    5) wet/dry (float)
-3 things it can do:
-    1) distort
-    2) bit crush
-    3) modulate
-*/
+void Filter::highPass(float lowRolloff, int slope)
+{
+    filterSlope = slope;
+    activeFilterType = "highPass";
+    mainFreq = lowRolloff;
+}
+
+void Filter::lowPass(float highRolloff, int slope)
+{
+    filterSlope = slope;
+    activeFilterType = "lowPass";
+    mainFreq = highRolloff;
+}
+
+bool Filter::isClipping(float changeInGain)
+{
+    if (currentGain + changeInGain > maxGain) 
+        return true;
+    
+    return false;    
+}
 
 struct Effects
 {
-    // saturation level
     float satLevel = 50.0f;
-    // delay repeats
-    int delayRepeats = 7;
-    // reverb decay
+    std::string currentEffect = "delay";
     float reverbDecay = 3.7f;
-    // bits crushed
     int bitsCrushed = 7;
-    // wet/dry
     float wet = 50.0f;
 
-    // distort
-    void distort(float gain);
-    // bit crush
-    void bitCrush(float sampleRate, int bits = 5);
-    // modulate
-    void modulate(float depth, int voices);
+    void distort(float gain = 5.0f);
+    void bitCrush(int bits = 5);
+    void delay(int delayRepeats = 7);
 };
 
-/*
-Thing 7) Oscillators
-5 properties:
-    1) Frequency (float)
-    2) Amplitude (float)
-    3) Waveshape (std::string)
-    4) Type of oscillator (str::string)
-    5) Number of oscillators (int)
-3 things it can do:
-    1) Create pitches
-    2) Change tone of pitches
-    3) Control other parameters
-*/
+void Effects::distort(float gain)
+{
+    currentEffect = "distort";
+    satLevel = gain * 10.0f;
+    wet = 100.0f;
+}
+
+void Effects::bitCrush(int bits)
+{
+    currentEffect = "bitCrush";
+    satLevel = 0.0f;
+    wet = 75.0f;
+    bitsCrushed = bits;
+}
+
+void Effects::delay(int delayRepeats)
+{
+    for(int i = 0; i < delayRepeats; ++i)
+    {
+        // increase saturation during repeats
+        satLevel = i/delayRepeats;
+    }
+}
 
 struct Oscillator
 {
-    // Frequency 
     float frequency = 500.0f;
-    // Amplitude 
     float amplitude = 0.75f;
-    // Waveshape 
     std::string waveShape = "sine";
-    // Type of oscillator 
-    std::string typeOfOscillator = "digitl";
-    // Number of oscillators 
+    std::string typeOfOscillator = "digital";
     int numOscillators = 3;
 
-    // Create pitches
-    float createPitch(int midiNote);
-    // Change tone of pitches
-    void changeTone(float filterRolloff);
-    // Control other parameters
-    void controlParam(std::string controlSource, std::string controlDestination, float amount = 0.75f);
+    std::string noteName(int midiNote);
+    void modWheel(float modAmount = 0.75f);
+    void volumePedal(float volumePedalPostion = 0.5f);
 };
 
-/*
-Thing 8) Envelope
-5 properties:
-    1) Attack (float)
-    2) Sustain (float)
-    3) Decay (float)
-    4) Release (float)
-    5) Hold (float)
-3 things it can do:
-    1) Adjust attack time
-    2) Adjust sustain level
-    3) Adjust release time
- */
+std::string Oscillator::noteName(int midiNote)
+{
+    auto val = midiNote % 12;
+    switch (val)
+    {
+        case 0: return "C";
+        case 1: return "C#";
+        case 2: return "D";
+        case 3: return "D#";
+        case 4: return "E";
+        case 5: return "F";
+        case 6: return "F#";
+        case 7: return "G";
+        case 8: return "G#";
+        case 9: return "A";
+        case 10: return "A#";
+        case 11: return "B";
+        default: return "C"; // this got rid of a warning
+    }
+}
+
+void Oscillator::modWheel(float modAmount)
+{
+    frequency *= (modAmount * 12);
+}
+
+void Oscillator::volumePedal(float volumePedalPosition)
+{
+    amplitude = volumePedalPosition;
+}
 
 struct Envelope
 {
-    // Attack
-    float attack = 1.2f;
-    // Sustain 
-    float sustain = 5.0f;
-    // Decay
-    float decay = .4f;
-    // Release
-    float release = 2.3f;
-    // Hold 
-    float hold = 4.5f;
+    float envAttack = 1.2f;
+    float envSustain = 5.0f;
+    float envDecay = .4f;
+    float envRelease = 2.3f;
+    float envHold = 4.5f;
 
-    // Adjust attack time
     void adjustAttack(float attack);
-    // Adjust sustain level
     void adjustSustain(float sustain);
-    // Adjust release time
     void adjustRelease(float release);
 };
 
-/*
-Thing 9) I/O
-5 properties:
-    1) number of inputs (int)
-    2) number of outputs (int)
-    3) type of midi connection (std::string)
-    4) type of CV (std::string)
-    5) type of USB connection (std::string)
-3 things it can do:
-    1) accept audio
-    2) output audio
-    3) process midi
- */
+void Envelope::adjustAttack(float attack)
+{
+    envAttack = attack;
+    std::cout << "Attack = " << attack;
+}
+
+void Envelope::adjustSustain(float sustain)
+{
+    envSustain = sustain;
+    std::cout << "sustain = " << sustain;
+}
+
+void Envelope::adjustRelease(float release)
+{
+    envRelease = release;
+    std::cout << "release = " << release;
+}
 
 struct IO
 {
-    // number of inputs (int)
     int numInputs = 2;
-    // number of outputs (int)
     int numOutputs = 2;
-    // type of midi connection (std::string)
     std::string typeOfMidiConnection = "USB";
-    // type of CV (std::string)
-    std::string typeOfCV = "gate";
-    // type of USB connection (std::string)
-    std::string typeOfUSB = "type A";
+    int currentMidiInStream = 50;
+    bool firmwareUpToDate = true;
 
-    // accept audio
-    bool getStatus(float startupComplete = 1.0f);
-    // output audio
-    void output(float sampleRate, int bufferSize);
-    // process midi
+    bool getStatus();
+    void inputStatus(int numActiveInputs = 2);
     int processMidi(int transposeAmount = 12);
 };
 
-/*
-Thing 10) Synthesizer
-5 properties:
-    1) Filters
-    2) Effects
-    3) Oscillators
-    4) Envelope
-    5) IO
-3 things it can do:
-    1) Create sound
-    2) Pitch bend
-    3) Process midi
- */
+bool IO::getStatus()
+{
+    if (firmwareUpToDate) 
+        return true;
+    
+    return false;
+}
+
+void IO::inputStatus(int numActiveInputs)
+{
+    if (numActiveInputs == 1) 
+        std::cout << "1 active input, mono";
+    else if (numActiveInputs == 2) 
+        std::cout << "2 active inputs, stereo";
+     
+    std::cout << "Inputs inactive";
+}
+
+int IO::processMidi(int transposeAmount)
+{
+    return (currentMidiInStream + transposeAmount) % 127;
+}
 
 struct Synth
 {
-    // Filters
     Filter filter1;
-    // Effects
     Effects effect1;
-    // Oscillators
     Oscillator oscillator1;
-    // Envelope
     Envelope envelope1;
-    // IO
     IO io1;
 
-    // Create sound
-    void makeSound(Oscillator osc2, IO io2);
-    // Pitch bend
+    bool makeSound(Oscillator osc2, IO io2);
     void pitchBend(Oscillator osc3, int numIntervals);
-    // Process midi
     void processMidi(IO io3, int midiNoteNumber);
 };
+
+bool Synth::makeSound(Oscillator osc2, IO io2)
+{
+    if (osc2.amplitude > 0 && io2.getStatus()) 
+        return true;
+    
+    return false;
+}
+
+void Synth::pitchBend(Oscillator osc3, int numIntervals)
+{
+    osc3.frequency += (numIntervals * 3);
+}
+
+void Synth::processMidi(IO io3, int midiNoteNumber)
+{
+    if (io3.typeOfMidiConnection == "USB") 
+        io3.currentMidiInStream = midiNoteNumber;
+}
 
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
