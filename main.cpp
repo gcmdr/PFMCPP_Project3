@@ -1,72 +1,43 @@
 /*
- Project 3 - Part 3 / 5
- video: Chapter 2 - Part 8
- Constructors tasks
+ Project 3 - Part 4 / 5
+ video: Chapter 2 - Part 9
+ Member initialization tasks
 
- Create a branch named Part3
+ Create a branch named Part4
+ 
+ 1) do this for each class in this project: 
+    initialize some of your member variables either in-class or in the Constructor member initializer list.
 
- On this new branch:
-
- 0) if you opted to not fill in any of your member functions in part2, 
-    fill in ALL of your member functions
-    
- 1) Add a constructor for each User-Defined-Type.
-    add a std::cout message in the constructor that prints out the name of the class being constructed.  
-    When you run your code, you'll see the order that your objects are created in the program output. 
+ 2) make some of your member functions use those initialized member variables via std::cout statements.
  
- 2) For each User-Defined-Type:
-        amend some of the member functions to print out something interesting via std::cout
- 
- 3) Instantiate 1 or 2 instances of each of your user-defined types in the main() function.
-
- 4) For each instantiated UDT: 
-        call each of that instance's member functions.
-        You're doing this to show that your code doesn't produce warnings when you call the functions that take arguments.
- 
- 5) add some std::cout statements in main() that print out your UDT's member variable values or values returned from your UDT member functions (if they return values)
- 
- After you finish defining each type/function:
- click the [run] button.  Clear up any errors or warnings as best you can.
+ 3) click the [run] button.  Clear up any errors or warnings as best you can.
  if your code produces a -Wpadded warning, add '-Wno-padded' to the .replit file with the other compiler flags (-Weverything -Wno-missing-prototypes etc etc)
- 
- example:
  */
 
 #include <iostream>
 namespace Example 
 {
-struct UDT  // my user defined type named 'UDT'
+struct UDT  
 {
     int a; //a member variable
-    UDT();              //1) the constructor
-    void printThing();  //the member function
+    float b { 2.f }; // in-class initialization
+    UDT() : a(0) { } // 'constructor-initializer-list' member variable initialization
+    void printThing()  //the member function
+    {
+        std::cout << "UDT::printThing() a:" << a << " b: " << b << std::endl;  //4) printing out something interesting
+    }
 };
-
-//the function definitions are outside of the class
-UDT::UDT()
-{
-    a = 0;
-}
-
-void UDT::printThing()
-{
-    std::cout << "UDT::printThing() " << a << std::endl;  //2) printing out something interesting
-}
 
 int main()
 {
-    UDT foo;              //3) instantiating a UDT named 'foo' in main()
-    foo.printThing();     //4) calling a member function of the UDT instance.
-    
-    //5) a std::cout statement accessing foo's member variable.
-    //It also demonstrates a 'ternary expression', which is syntactic shorthand for an 'if/else' expression
-    std::cout << "Is foo's member var 'a' equal to 0? " << (foo.a == 0 ? "Yes" : "No") << "\n";
-    
+    UDT foo; //instantiating a Foo in main()
+    foo.printThing(); //calling a member function of the instance that was instantiated.
     return 0;
 }
-} //end namespace Example
+}
 
-//insert Example::main() into main() of user's repo.
+//call Example::main()
+
 
 
 struct StereoSystem
