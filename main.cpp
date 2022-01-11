@@ -48,19 +48,19 @@ struct StereoSystem
     float wattsOfPower = 60.0f;
     int numAnalogInputs = 2;
     int numDigitalInputs = 2;
-    int numEQBands = 5;
-    bool subOn = false;
-    int maxBassLevel = 10;
-    int bassLevel = 0;
+    int numEQBands;
+    bool subOn;
+    int maxBassLevel;
+    int bassLevel;
 
     struct Tape
     {
         Tape();
         std::string tapeName = "mix";
         std::string type = "chrome bias";
-        float quality = 1.0f;
-        int minPerSide = 30;
-        int positionInMinutes = 0;
+        float quality;
+        int minPerSide;
+        int positionInMinutes;
 
         void rewind(bool beginning, int lengthOfTime);
         void fastForward(bool end, int lengthOfTime);
@@ -74,18 +74,26 @@ struct StereoSystem
     Tape originalTape;
 };
 
-StereoSystem::StereoSystem()
+StereoSystem::StereoSystem() : 
+numEQBands(5),
+subOn(false),
+maxBassLevel(10),
+bassLevel(0)
 {
     std::cout << "StereoSystem " << std::endl;
 }
 
-StereoSystem::Tape::Tape()
+StereoSystem::Tape::Tape() : 
+quality(1.0f),
+minPerSide(30),
+positionInMinutes(0)
 {
     std::cout << "StereoSystem::Tape " << std::endl;
 }
 
 void StereoSystem::playMusic(std::string album, int track)
 {
+    std::cout << "Max bass level = " << maxBassLevel << std::endl;
     std::cout << "Now Playing: " << album << ", Track " << track << std::endl; 
 }
 
@@ -98,7 +106,7 @@ void StereoSystem::boostBass(int bassBoostAmount)
         bassLevel = maxBassLevel;
     else 
         bassLevel += bassBoostAmount;
-
+    std::cout << "Watts of power = " << wattsOfPower << std::endl; 
     std::cout << "StereoSystem::boostBass  basslevel = " << bassLevel << std::endl; 
 }
 
@@ -123,6 +131,7 @@ void StereoSystem::Tape::rewind(bool beginning, int lengthOfTime)
         else 
             positionInMinutes -= lengthOfTime;
     }
+    std::cout << "Position in minutes = " << positionInMinutes << std::endl;
 }
         
 void StereoSystem::Tape::fastForward(bool end, int lengthOfTime)
@@ -149,8 +158,8 @@ std::string StereoSystem::Tape::getTitle()
 struct Military
 {
     Military();
-    std::string branchOfMilitary = "Navy";
-    int numBases = 127;
+    std::string branchOfMilitary;
+    int numBases;
     int numSoldiers = 5000;
     float budget = 10000000.0f;
     int numReserveSoldiers = 1000;
@@ -159,9 +168,9 @@ struct Military
     {
         Soldier();
         float height = 60.2f;
-        float weight = 185.0f;
-        std::string mainSkill = "munitions";
-        int yearsExperience = 5;
+        float weight;
+        std::string mainSkill;
+        int yearsExperience;
         std::string rank = "corporal";
 
         bool readyForCombat(float requiredWeight, int requiredExperience);
@@ -176,18 +185,24 @@ struct Military
     Soldier soldier1;
 };
 
-Military::Military()
+Military::Military() : 
+branchOfMilitary("Navy"),
+numBases(127)
 {
     std::cout << "Military " << std::endl;
 }
 
-Military::Soldier::Soldier()
+Military::Soldier::Soldier() :
+weight(185.0f),
+mainSkill("munitions"),
+yearsExperience(5)
 {
     std::cout << "Military::Soldier " << std::endl;
 }
 
 float Military::spendMoney (std::string Contract, float expense)
 {
+    std::cout << "Budget = " << budget << std::endl;
     if(expense > budget) 
     {
         std::cout << "Not enough money to fulfill contract." << std::endl;
@@ -213,6 +228,7 @@ void Military::defend (int numEnemySoldiers)
 
         numSoldiers += callUpSoldiers;
         std::cout << "Military::defend  numSoldiers = " << numSoldiers << std::endl; 
+        std::cout << "numBases = " << numBases << std::endl; 
     }
 }
 
@@ -242,6 +258,7 @@ void Military::Soldier::skillsAndRank(std::string primarySkill, std::string curr
 {
     std::cout << "Rank: " << currentRank << std::endl; 
     std::cout << "Skill: " << primarySkill << std::endl;
+    std::cout << "Main Skill: " << mainSkill << std::endl;
 }
 
 struct House
@@ -250,21 +267,25 @@ struct House
     int numBedrooms = 2;
     std::string typeOfAC = "central";
     std::string typeOfRoof = "tile";
-    int currentTemp = 75;
-    bool heatingOn = false;
-    float totalSewageProcessed = 0.0f;
+    int currentTemp;
+    bool heatingOn;
+    float totalSewageProcessed;
 
     void heatInterior(int thermostatSetting = 75);
     void houseCharacteristics();
     void processSewage(float gallonsOfSewage = 14.5f, bool septicTankFunctional = true);
 };
 
-House::House()
+House::House() :
+currentTemp(75),
+heatingOn(false),
+totalSewageProcessed(0.0f)
 {
     std::cout << "House " << std::endl;
 }
 void House::heatInterior(int thermostatSetting)
 {
+    std::cout << "Current temp: " << currentTemp << std::endl;
     if(thermostatSetting < currentTemp) 
         heatingOn = true;
     
@@ -287,8 +308,8 @@ void House::processSewage(float gallonsOfSewage, bool septicTankFunctional)
 struct Plane
 {
     Plane();
-    int numSeats = 240;
-    std::string typeOfEngine = "turboprop";
+    int numSeats;
+    std::string typeOfEngine;
     double cargoCapacity = 5000;
     double currentWeight = 0;
     float fuelLevel = 5000;
@@ -298,13 +319,16 @@ struct Plane
     void fly(int flightTime, float engineThrust, bool clearRunway = true);
 };
 
-Plane::Plane()
+Plane::Plane() :
+numSeats(240),
+typeOfEngine("turboprop")
 {
     std::cout << "Plane " << std::endl;
 }
 
 bool Plane::transportCargo(double parcelWeight)
 {
+    std::cout << "Cargo capacity is: " << cargoCapacity << std::endl;
     if(currentWeight + parcelWeight > cargoCapacity)
          return false;
         
@@ -322,6 +346,7 @@ float Plane::sellAlcohol(int totalDrinks, float drinkPrice)
 
 void Plane::fly(int flightTime, float engineThrust, bool clearRunway)
 {
+    std::cout << "Type of engine: " << typeOfEngine << std::endl; 
     if (clearRunway)
     {
         std::cout << "Plane::sellAlcohol  Runyway is Clear " << std::endl; 
@@ -335,16 +360,19 @@ struct Filter
     int filterSlope = -6;
     std::string activeFilterType = "low pass";
     float mainFreq = 75.0f;
-    float currentQ = 1.52f;
-    float currentGain = 0.0f;
-    float maxGain = 20.0f;
+    float currentQ;
+    float currentGain;
+    float maxGain;
     
     void highPass(float lowRolloff = 70.0f, int slope = -6);
     void lowPass(float highRolloff = 15000.0f, int slope = 12);
     bool isClipping(float changeInGain = 6.5f);
 };
 
-Filter::Filter()
+Filter::Filter() :
+currentQ(1.52f),
+currentGain(0.0f),
+maxGain(20.0f)
 {
     std::cout << "Filter " << std::endl;
 }
@@ -362,6 +390,7 @@ void Filter::lowPass(float highRolloff, int slope)
     filterSlope = slope;
     activeFilterType = "lowPass";
     mainFreq = highRolloff;
+    std::cout << "Current gain = " << currentGain << std::endl; 
 }
 
 bool Filter::isClipping(float changeInGain)
@@ -379,9 +408,9 @@ struct Effects
 {
     Effects();
     float satLevel = 50.0f;
-    std::string currentEffect = "delay";
-    float reverbDecay = 3.7f;
-    int bitsCrushed = 7;
+    std::string currentEffect;
+    float reverbDecay;
+    int bitsCrushed;
     float wet = 50.0f;
 
     void distort(float gain = 5.0f);
@@ -389,7 +418,10 @@ struct Effects
     void delay(int delayRepeats = 7);
 };
 
-Effects::Effects()
+Effects::Effects() : 
+currentEffect("delay"),
+reverbDecay(3.7f),
+bitsCrushed(7)
 {
     std::cout << "Effects" << std::endl;
 }
@@ -408,6 +440,7 @@ void Effects::bitCrush(int bits)
     satLevel = 0.0f;
     wet = 75.0f;
     bitsCrushed = bits;
+    std::cout << "Bits crushed = " << bitsCrushed << std::endl; 
 }
 
 void Effects::delay(int delayRepeats)
@@ -422,8 +455,8 @@ void Effects::delay(int delayRepeats)
 struct Oscillator
 {
     Oscillator();
-    float frequency = 500.0f;
-    float amplitude = 0.75f;
+    float frequency;
+    float amplitude;
     std::string waveShape = "sine";
     std::string typeOfOscillator = "digital";
     int numOscillators = 3;
@@ -433,7 +466,9 @@ struct Oscillator
     void volumePedal(float volumePedalPostion = 0.5f);
 };
 
-Oscillator::Oscillator()
+Oscillator::Oscillator() : 
+frequency(500.0f),
+amplitude(0.75f)
 {
     std::cout << "Oscillator" << std::endl;
 }
@@ -462,11 +497,13 @@ std::string Oscillator::noteName(int midiNote)
 
 void Oscillator::modWheel(float modAmount)
 {
+    std::cout << "frequency before adjustment = " << frequency << std::endl;
     frequency *= (modAmount * 12);
 }
 
 void Oscillator::volumePedal(float volumePedalPosition)
 {
+    std::cout << "amplitude = " << amplitude << std::endl;
     amplitude = volumePedalPosition;
 }
 
@@ -476,15 +513,17 @@ struct Envelope
     float envAttack = 1.2f;
     float envSustain = 5.0f;
     float envDecay = 0.4f;
-    float envRelease = 2.3f;
-    float envHold = 4.5f;
+    float envRelease;
+    float envHold;
 
     void adjustAttack(float attack);
     void adjustSustain(float sustain);
     void adjustRelease(float release);
 };
 
-Envelope::Envelope()
+Envelope::Envelope() : 
+envRelease(2.3f),
+envHold(4.5f)
 {
     std::cout << "Envelope" << std::endl;
 }
@@ -510,8 +549,8 @@ void Envelope::adjustRelease(float release)
 struct IO
 {
     IO();
-    int numInputs = 2;
-    int numOutputs = 2;
+    int numInputs;
+    int numOutputs;
     std::string typeOfMidiConnection = "USB";
     int currentMidiInStream = 50;
     bool firmwareUpToDate = true;
@@ -521,13 +560,16 @@ struct IO
     int processMidi(int transposeAmount = 12);
 };
 
-IO::IO()
+IO::IO() : 
+numInputs(2),
+numOutputs(2)
 {
     std::cout << "IO" << std::endl;
 }
 
 bool IO::getStatus()
 {
+    std::cout << "typeOfMidiConnection: " << typeOfMidiConnection << std::endl; 
     if (firmwareUpToDate) 
     {
         std::cout << "Firmware is up to date" << std::endl; 
@@ -543,7 +585,8 @@ void IO::inputStatus(int numActiveInputs)
         std::cout << "1 active input, mono" << std::endl;
     else if (numActiveInputs == 2) 
         std::cout << "2 active inputs, stereo" << std::endl;
-     
+
+    std::cout << "NumActive inputs = " << numInputs << std::endl; 
     std::cout << "Inputs inactive" << std::endl;
 }
 
