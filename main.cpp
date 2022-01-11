@@ -69,30 +69,27 @@ int main()
 //insert Example::main() into main() of user's repo.
 
 
-
-
-
 struct StereoSystem
 {
     StereoSystem();
 
-    int numSpeakers;
-    float wattsOfPower;
-    int numAnalogInputs;
-    int numDigitalInputs;
-    int numEQBands;
-    bool subOn;
-    int maxBassLevel;
-    int bassLevel;
+    int numSpeakers = 2;
+    float wattsOfPower = 60.0f;
+    int numAnalogInputs = 2;
+    int numDigitalInputs = 2;
+    int numEQBands = 5;
+    bool subOn = false;
+    int maxBassLevel = 10;
+    int bassLevel = 0;
 
     struct Tape
     {
         Tape();
-        std::string tapeName;
-        std::string type;
-        float quality;
-        int minPerSide;
-        int positionInMinutes;
+        std::string tapeName = "mix";
+        std::string type = "chrome bias";
+        float quality = 1.0f;
+        int minPerSide = 30;
+        int positionInMinutes = 0;
 
         void rewind(bool beginning, int lengthOfTime);
         void fastForward(bool end, int lengthOfTime);
@@ -108,25 +105,12 @@ struct StereoSystem
 
 StereoSystem::StereoSystem()
 {
-    std::cout << "StereoSystem::StereoSystem() " << std::endl;
-    numSpeakers = 2;
-    wattsOfPower = 60.0f;
-    numAnalogInputs = 2;
-    numDigitalInputs = 2;
-    numEQBands = 5;
-    subOn = false;
-    maxBassLevel = 10;
-    bassLevel = 0;
+    std::cout << "StereoSystem " << std::endl;
 }
 
 StereoSystem::Tape::Tape()
 {
-    std::cout << "StereoSystem::Tape::Tape() " << std::endl;
-    tapeName = "mix";
-    type = "chrome bias";
-    quality = 1.0f;
-    minPerSide = 30;
-    positionInMinutes = 0;
+    std::cout << "StereoSystem::Tape " << std::endl;
 }
 
 void StereoSystem::playMusic(std::string album, int track)
@@ -194,20 +178,20 @@ std::string StereoSystem::Tape::getTitle()
 struct Military
 {
     Military();
-    std::string branchOfMilitary;
-    int numBases;
-    int numSoldiers;
-    float budget;
-    int numReserveSoldiers;
+    std::string branchOfMilitary = "Navy";
+    int numBases = 127;
+    int numSoldiers = 5000;
+    float budget = 10000000.0f;
+    int numReserveSoldiers = 1000;
 
     struct Soldier
     {
         Soldier();
-        float height;
-        float weight;
-        std::string mainSkill;
-        int yearsExperience;
-        std::string rank;
+        float height = 60.2f;
+        float weight = 185.0f;
+        std::string mainSkill = "munitions";
+        int yearsExperience = 5;
+        std::string rank = "corporal";
 
         bool readyForCombat(float requiredWeight, int requiredExperience);
         void constructShelter(int numberOfSoldiers, std::string weatherConditions = "cloudy");
@@ -223,22 +207,12 @@ struct Military
 
 Military::Military()
 {
-    std::cout << "Military::Military() " << std::endl;
-    branchOfMilitary = "Navy";
-    numBases = 127;
-    numSoldiers = 5000;
-    budget = 10000000.0f;
-    numReserveSoldiers = 1000;
+    std::cout << "Military " << std::endl;
 }
 
 Military::Soldier::Soldier()
 {
-    std::cout << "Military::Soldier::Soldier() " << std::endl;
-    height = 60.2f;
-    weight = 185.0f;
-    mainSkill = "munitions";
-    yearsExperience = 5;
-    rank = "corporal";
+    std::cout << "Military::Soldier " << std::endl;
 }
 
 float Military::spendMoney (std::string Contract, float expense)
@@ -302,12 +276,12 @@ void Military::Soldier::skillsAndRank(std::string primarySkill, std::string curr
 struct House
 {
     House();
-    int numBedrooms;
-    std::string typeOfAC;
-    std::string typeOfRoof;
-    int currentTemp;
-    bool heatingOn;
-    float totalSewageProcessed;
+    int numBedrooms = 2;
+    std::string typeOfAC = "central";
+    std::string typeOfRoof = "tile";
+    int currentTemp = 75;
+    bool heatingOn = false;
+    float totalSewageProcessed = 0.0f;
 
     void heatInterior(int thermostatSetting = 75);
     void houseCharacteristics();
@@ -316,13 +290,7 @@ struct House
 
 House::House()
 {
-    std::cout << "House::House() " << std::endl;
-    numBedrooms = 2;
-    typeOfAC = "central";
-    typeOfRoof = "tile";
-    currentTemp = 75;
-    heatingOn = false;
-    totalSewageProcessed = 0.0f;
+    std::cout << "House " << std::endl;
 }
 void House::heatInterior(int thermostatSetting)
 {
@@ -348,11 +316,11 @@ void House::processSewage(float gallonsOfSewage, bool septicTankFunctional)
 struct Plane
 {
     Plane();
-    int numSeats;
-    std::string typeOfEngine;
-    double cargoCapacity;
-    double currentWeight;
-    float fuelLevel;
+    int numSeats = 240;
+    std::string typeOfEngine = "turboprop";
+    double cargoCapacity = 5000;
+    double currentWeight = 0;
+    float fuelLevel = 5000;
     
     bool transportCargo(double parcelWeight);
     float sellAlcohol(int totalDrinks, float drinkPrice);
@@ -361,12 +329,7 @@ struct Plane
 
 Plane::Plane()
 {
-    std::cout << "Plane::Plane() " << std::endl;
-    numSeats = 240;
-    typeOfEngine = "turboprop";
-    cargoCapacity = 5000;
-    currentWeight = 0;
-    fuelLevel = 5000;
+    std::cout << "Plane " << std::endl;
 }
 
 bool Plane::transportCargo(double parcelWeight)
@@ -398,12 +361,12 @@ void Plane::fly(int flightTime, float engineThrust, bool clearRunway)
 struct Filter
 {
     Filter();
-    int filterSlope;
-    std::string activeFilterType;
-    float mainFreq;
-    float currentQ;
-    float currentGain;
-    float maxGain;
+    int filterSlope = -6;
+    std::string activeFilterType = "low pass";
+    float mainFreq = 75.0f;
+    float currentQ = 1.52f;
+    float currentGain = 0.0f;
+    float maxGain = 20.0f;
     
     void highPass(float lowRolloff = 70.0f, int slope = -6);
     void lowPass(float highRolloff = 15000.0f, int slope = 12);
@@ -412,13 +375,7 @@ struct Filter
 
 Filter::Filter()
 {
-    std::cout << "Filter::Filter() " << std::endl;
-    filterSlope = -6;
-    activeFilterType = "low pass";
-    mainFreq = 75.0f;
-    currentQ = 1.52f;
-    currentGain = 0.0f;
-    maxGain = 20.0f;
+    std::cout << "Filter " << std::endl;
 }
 
 void Filter::highPass(float lowRolloff, int slope)
@@ -450,11 +407,11 @@ bool Filter::isClipping(float changeInGain)
 struct Effects
 {
     Effects();
-    float satLevel;
-    std::string currentEffect;
-    float reverbDecay;
-    int bitsCrushed;
-    float wet;
+    float satLevel = 50.0f;
+    std::string currentEffect = "delay";
+    float reverbDecay = 3.7f;
+    int bitsCrushed = 7;
+    float wet = 50.0f;
 
     void distort(float gain = 5.0f);
     void bitCrush(int bits = 5);
@@ -463,12 +420,7 @@ struct Effects
 
 Effects::Effects()
 {
-    std::cout << "Effects::Effects()" << std::endl;
-    satLevel = 50.0f;
-    currentEffect = "delay";
-    reverbDecay = 3.7f;
-    bitsCrushed = 7;
-    wet = 50.0f;
+    std::cout << "Effects" << std::endl;
 }
 
 void Effects::distort(float gain)
@@ -499,10 +451,10 @@ void Effects::delay(int delayRepeats)
 struct Oscillator
 {
     Oscillator();
-    float frequency;
-    float amplitude;
-    std::string waveShape;
-    std::string typeOfOscillator;
+    float frequency = 500.0f;
+    float amplitude = 0.75f;
+    std::string waveShape = "sine";
+    std::string typeOfOscillator = "digital";
     int numOscillators = 3;
 
     std::string noteName(int midiNote);
@@ -512,12 +464,7 @@ struct Oscillator
 
 Oscillator::Oscillator()
 {
-    std::cout << "Oscillator::Oscillator()" << std::endl;
-    frequency = 500.0f;
-    amplitude = 0.75f;
-    waveShape = "sine";
-    typeOfOscillator = "digital";
-    numOscillators = 3;
+    std::cout << "Oscillator" << std::endl;
 }
 
 std::string Oscillator::noteName(int midiNote)
@@ -555,11 +502,11 @@ void Oscillator::volumePedal(float volumePedalPosition)
 struct Envelope
 {
     Envelope();
-    float envAttack;
-    float envSustain;
-    float envDecay;
-    float envRelease;
-    float envHold;
+    float envAttack = 1.2f;
+    float envSustain = 5.0f;
+    float envDecay = 0.4f;
+    float envRelease = 2.3f;
+    float envHold = 4.5f;
 
     void adjustAttack(float attack);
     void adjustSustain(float sustain);
@@ -568,12 +515,7 @@ struct Envelope
 
 Envelope::Envelope()
 {
-    std::cout << "Envelope::Envelope()" << std::endl;
-    envAttack = 1.2f;
-    envSustain = 5.0f;
-    envDecay = .4f;
-    envRelease = 2.3f;
-    envHold = 4.5f;
+    std::cout << "Envelope" << std::endl;
 }
 
 void Envelope::adjustAttack(float attack)
@@ -597,11 +539,11 @@ void Envelope::adjustRelease(float release)
 struct IO
 {
     IO();
-    int numInputs;
-    int numOutputs;
-    std::string typeOfMidiConnection;
-    int currentMidiInStream;
-    bool firmwareUpToDate;
+    int numInputs = 2;
+    int numOutputs = 2;
+    std::string typeOfMidiConnection = "USB";
+    int currentMidiInStream = 50;
+    bool firmwareUpToDate = true;
 
     bool getStatus();
     void inputStatus(int numActiveInputs = 2);
@@ -610,12 +552,7 @@ struct IO
 
 IO::IO()
 {
-    std::cout << "IO::IO()" << std::endl;
-    numInputs = 2;
-    numOutputs = 2;
-    typeOfMidiConnection = "USB";
-    currentMidiInStream = 50;
-    firmwareUpToDate = true;
+    std::cout << "IO" << std::endl;
 }
 
 bool IO::getStatus()
@@ -660,8 +597,7 @@ struct Synth
 
 Synth::Synth()
 {
-    std::cout << "Synth::Synth()" << std::endl;
-    filter1.filterSlope = -12;
+    std::cout << "Synth" << std::endl;
 }
 
 bool Synth::makeSound(Oscillator osc2, IO io2)
