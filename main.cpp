@@ -145,7 +145,7 @@ void StereoSystem::destroyTheBass()
 {
     while(bassLevel > 0)
     {
-        bassLevel--;
+        --bassLevel;
     }
     std::cout << "Bass has been destroyed, bass level is now: " << bassLevel << std::endl;
 }
@@ -200,8 +200,8 @@ void StereoSystem::Tape::splice(int lengthOfSplice)
     int i = 0;
     while(i < lengthOfSplice)
     {
-        minPerSide++;
-        i++;
+        ++minPerSide;
+        ++i;
     }
     std::cout << "After splice,min per side = " << minPerSide << std::endl;
 }
@@ -307,8 +307,8 @@ int Military::catch22(int bombs)
     int basesDestroyed = 0;
     while(bombs > 0)
     {
-        basesDestroyed++;
-        bombs--;
+        ++basesDestroyed;
+        --bombs;
     }
     std::cout << basesDestroyed << " bases have been destroyed" << std::endl;
     return basesDestroyed;
@@ -330,9 +330,9 @@ void Military::Soldier::skillsAndRank(std::string primarySkill, std::string curr
 float Military::Soldier::weightGainFromPushups(int numPushups)
 {
     float weightGained = 0.0f;
-    for (int i=1; i<numPushups; i++)
+    for (int i = 1; i < numPushups; i++)
     {
-        if(i%5 == 0)
+        if(i % 5 == 0)
         {
             weightGained += .01f;
         }
@@ -394,7 +394,7 @@ void House::changeTemp(int lowTemp, int highTemp)
     {
         while(currentTemp < highTemp)
         {
-            currentTemp++;
+            ++currentTemp;
         }
         std::cout << "House has warmed to " << currentTemp << " degrees" << std::endl;
     }
@@ -402,7 +402,7 @@ void House::changeTemp(int lowTemp, int highTemp)
     {
         while(currentTemp > lowTemp)
         {
-            currentTemp--;
+            --currentTemp;
         }
         std::cout << "House has cooled to " << currentTemp << " degrees" << std::endl;
     }
@@ -445,9 +445,9 @@ bool Plane::transportCargo(double parcelWeight)
 void Plane::cleanSeats(int numberOfSeats)
 {
     int numCleanedSeats = 0;
-    for(int i=0; i < numberOfSeats; i++)
+    for(int i = 0; i < numberOfSeats; ++i)
     {
-        numCleanedSeats++;
+        ++numCleanedSeats;
     }
     std::cout << numCleanedSeats << " seats cleaned" << std::endl;
 
@@ -559,11 +559,11 @@ void Effects::crushLess(int maxBits)
 {
     std::cout << "bits before uncrushing: " << bits << std::endl;
     int bitsToUncrush = maxBits - bits;
-    for(int i=0; i < bitsToUncrush*100; i++)
+    for(int i = 0; i < bitsToUncrush * 100; ++i)
     {
-        if (i%100)
+        if (i % 100)
         {
-            bits++;
+            ++bits;
         }
     }
     std::cout << "bits after uncrushed: " << bits << std::endl;
@@ -697,9 +697,9 @@ envHold(4.5f)
 
 float Envelope::extendAttack(float unitsOfTime)
 {
-    for(float newTime = 0.0f; newTime < unitsOfTime; newTime++)
+    for(float newTime = 0.0f; newTime < unitsOfTime; ++newTime)
     {
-        envAttack++;
+        ++envAttack;
     }
     std::cout << "new attack is " << envAttack << std::endl;
     return envAttack;
@@ -750,11 +750,11 @@ void IO::sweepUpAndDown()
     int ogNote = currentMidiInStream;
     while(currentMidiInStream < 127)
     {
-        currentMidiInStream++;
+        ++currentMidiInStream;
     }
     while(currentMidiInStream > ogNote)
     {
-        currentMidiInStream--;
+        --currentMidiInStream;
     }
     std::cout << "swept from " << ogNote << " to the top and back down" << std::endl;
 }
