@@ -94,11 +94,13 @@ struct StereoSystem
         void rewind(bool beginning, int lengthOfTime);
         void fastForward(bool end, int lengthOfTime);
         std::string getTitle();
+        void splice(int lengthOfSplice);
     };
 
     void playMusic(std::string album, int track);
     void boostBass(int bassBoostAmount = 5);
     Tape dubTapes(Tape tape1);
+    void destroyTheBass();
 
     Tape originalTape;
 };
@@ -137,6 +139,15 @@ void StereoSystem::boostBass(int bassBoostAmount)
         bassLevel += bassBoostAmount;
     std::cout << "Watts of power = " << wattsOfPower << std::endl; 
     std::cout << "StereoSystem::boostBass  basslevel = " << bassLevel << std::endl; 
+}
+
+void StereoSystem::destroyTheBass()
+{
+    while(bassLevel > 0)
+    {
+        --bassLevel;
+    }
+    std::cout << "Bass has been destroyed, bass level is now: " << bassLevel << std::endl;
 }
 
 StereoSystem::Tape StereoSystem::dubTapes(Tape tape1)
@@ -184,6 +195,17 @@ std::string StereoSystem::Tape::getTitle()
     return tapeName;
 }
 
+void StereoSystem::Tape::splice(int lengthOfSplice)
+{
+    int i = 0;
+    while(i < lengthOfSplice)
+    {
+        ++minPerSide;
+        ++i;
+    }
+    std::cout << "After splice,min per side = " << minPerSide << std::endl;
+}
+
 struct Military
 {
     Military();
@@ -205,11 +227,14 @@ struct Military
         bool readyForCombat(float requiredWeight, int requiredExperience);
         void constructShelter(int numberOfSoldiers, std::string weatherConditions = "cloudy");
         void skillsAndRank(std::string mainSkill, std::string rank);
+        float weightGainFromPushups(int numberOfPushups);
     };
 
-    float spendMoney (std::string Contract, float budget=10000000.57f);
-    void defend (int numEnemySoldiers);
-    bool invade (int numEnemySoldiers, int numEnemyBases);
+    float spendMoney(std::string Contract, float budget=10000000.57f);
+    void defend(int numEnemySoldiers);
+    bool invade(int numEnemySoldiers, int numEnemyBases);
+    int catch22(int numBombs);
+
 
     Soldier soldier1;
 };
@@ -277,6 +302,18 @@ bool Military::Soldier::readyForCombat(float requiredWeight, int requiredExperie
     return true;
 }
 
+int Military::catch22(int bombs)
+{
+    int basesDestroyed = 0;
+    while(bombs > 0)
+    {
+        ++basesDestroyed;
+        --bombs;
+    }
+    std::cout << basesDestroyed << " bases have been destroyed" << std::endl;
+    return basesDestroyed;
+}
+
 void Military::Soldier::constructShelter(int numberOfSoldiers, std::string weatherConditions)
 {
     std::cout << "Construct shelter for: " << numberOfSoldiers <<  " soldiers." << std::endl;
@@ -288,6 +325,22 @@ void Military::Soldier::skillsAndRank(std::string primarySkill, std::string curr
     std::cout << "Rank: " << currentRank << std::endl; 
     std::cout << "Skill: " << primarySkill << std::endl;
     std::cout << "Main Skill: " << mainSkill << std::endl;
+}
+
+float Military::Soldier::weightGainFromPushups(int numPushups)
+{
+    float weightGained = 0.0f;
+    for (int i = 1; i < numPushups; ++i)
+    {
+        if(i % 5 == 0)
+        {
+            weightGained += .01f;
+        }
+    }
+
+    weight += weightGained; // add weightGained to total weight
+    std::cout << weightGained << "lbs were gained!" << std::endl;
+    return weightGained;
 }
 
 struct House
@@ -303,6 +356,7 @@ struct House
     void heatInterior(int thermostatSetting = 75);
     void houseCharacteristics();
     void processSewage(float gallonsOfSewage = 14.5f, bool septicTankFunctional = true);
+    void changeTemp(int lowTemp, int highTemp);
 };
 
 House::House() :
@@ -334,6 +388,27 @@ void House::processSewage(float gallonsOfSewage, bool septicTankFunctional)
     std::cout << "House::processSewage  totalSewageProcessed = " << totalSewageProcessed << std::endl; 
 }
 
+void House::changeTemp(int lowTemp, int highTemp)
+{
+    if(heatingOn)
+    {
+        while(currentTemp < highTemp)
+        {
+            ++currentTemp;
+        }
+        std::cout << "House has warmed to " << currentTemp << " degrees" << std::endl;
+    }
+    else
+    {
+        while(currentTemp > lowTemp)
+        {
+            --currentTemp;
+        }
+        std::cout << "House has cooled to " << currentTemp << " degrees" << std::endl;
+    }
+
+}
+
 struct Plane
 {
     Plane();
@@ -346,6 +421,7 @@ struct Plane
     bool transportCargo(double parcelWeight);
     float sellAlcohol(int totalDrinks, float drinkPrice);
     void fly(int flightTime, float engineThrust, bool clearRunway = true);
+    void cleanSeats(int numSeatsToClean);
 };
 
 Plane::Plane() :
@@ -364,6 +440,17 @@ bool Plane::transportCargo(double parcelWeight)
     currentWeight += parcelWeight;
     return true;
         
+}
+
+void Plane::cleanSeats(int numberOfSeats)
+{
+    int numCleanedSeats = 0;
+    for(int i = 0; i < numberOfSeats; ++i)
+    {
+        ++numCleanedSeats;
+    }
+    std::cout << numCleanedSeats << " seats cleaned" << std::endl;
+
 }
 
 float Plane::sellAlcohol(int totalDrinks, float drinkPrice)
@@ -396,6 +483,7 @@ struct Filter
     void highPass(float lowRolloff = 70.0f, int slope = -6);
     void lowPass(float highRolloff = 15000.0f, int slope = 12);
     bool isClipping(float changeInGain = 6.5f);
+    void envelopeFilter(float lowFreq, float highFreq);
 };
 
 Filter::Filter() :
@@ -404,6 +492,17 @@ currentGain(0.0f),
 maxGain(20.0f)
 {
     std::cout << "Filter " << std::endl;
+}
+
+void Filter::envelopeFilter(float lowFreq, float highFreq)
+{
+    std::cout << "sweep from " << lowFreq << "hZ to " << highFreq << "hz" << std::endl;
+    mainFreq = lowFreq;
+    while(mainFreq < highFreq)
+    {
+        mainFreq += 0.01f;
+    }
+
 }
 
 void Filter::highPass(float lowRolloff, int slope)
@@ -439,20 +538,35 @@ struct Effects
     float satLevel = 50.0f;
     std::string currentEffect;
     float reverbDecay;
-    int bitsCrushed;
+    int bits;
     float wet = 50.0f;
 
     void distort(float gain = 5.0f);
     void bitCrush(int bits = 5);
     void delay(int delayRepeats = 7);
+    void crushLess(int maxBits);
 };
 
 Effects::Effects() : 
 currentEffect("delay"),
 reverbDecay(3.7f),
-bitsCrushed(7)
+bits(7)
 {
     std::cout << "Effects" << std::endl;
+}
+
+void Effects::crushLess(int maxBits)
+{
+    std::cout << "bits before uncrushing: " << bits << std::endl;
+    int bitsToUncrush = maxBits - bits;
+    for(int i = 0; i < bitsToUncrush * 100; ++i)
+    {
+        if (i % 100)
+        {
+            ++bits;
+        }
+    }
+    std::cout << "bits after uncrushed: " << bits << std::endl;
 }
 
 void Effects::distort(float gain)
@@ -463,13 +577,13 @@ void Effects::distort(float gain)
     std::cout << "Effects::distort  wet = " << wet << std::endl; 
 }
 
-void Effects::bitCrush(int bits)
+void Effects::bitCrush(int newBits)
 {
     currentEffect = "bitCrush";
     satLevel = 0.0f;
     wet = 75.0f;
-    bitsCrushed = bits;
-    std::cout << "Bits crushed = " << bitsCrushed << std::endl; 
+    bits = newBits;
+    std::cout << "Bits crushed = " << bits << std::endl; 
 }
 
 void Effects::delay(int delayRepeats)
@@ -493,6 +607,7 @@ struct Oscillator
     std::string noteName(int midiNote);
     void modWheel(float modAmount = 0.75f);
     void volumePedal(float volumePedalPostion = 0.5f);
+    void portamento(float nextNote);
 };
 
 Oscillator::Oscillator() : 
@@ -500,6 +615,28 @@ frequency(500.0f),
 amplitude(0.75f)
 {
     std::cout << "Oscillator" << std::endl;
+}
+
+void Oscillator::portamento(float nextNote)
+{
+    std::cout << "Initial freq: " << frequency << std::endl;
+    
+    if (frequency < nextNote)
+    {
+        while(frequency < nextNote)
+        {
+            frequency += 0.1f;
+        }
+    }
+    else
+    {
+        while(frequency > nextNote)
+        {
+            frequency -= 0.1f;
+        }
+    }
+
+    std::cout << "Final freq: " << frequency << std::endl;
 }
 
 std::string Oscillator::noteName(int midiNote)
@@ -548,6 +685,7 @@ struct Envelope
     void adjustAttack(float attack);
     void adjustSustain(float sustain);
     void adjustRelease(float release);
+    float extendAttack(float unitsOfTime);
 };
 
 Envelope::Envelope() : 
@@ -555,6 +693,16 @@ envRelease(2.3f),
 envHold(4.5f)
 {
     std::cout << "Envelope" << std::endl;
+}
+
+float Envelope::extendAttack(float unitsOfTime)
+{
+    for(float newTime = 0.0f; newTime < unitsOfTime; ++newTime)
+    {
+        ++envAttack;
+    }
+    std::cout << "new attack is " << envAttack << std::endl;
+    return envAttack;
 }
 
 void Envelope::adjustAttack(float attack)
@@ -587,6 +735,7 @@ struct IO
     bool getStatus();
     void inputStatus(int numActiveInputs = 2);
     int processMidi(int transposeAmount = 12);
+    void sweepUpAndDown();
 };
 
 IO::IO() : 
@@ -594,6 +743,20 @@ numInputs(2),
 numOutputs(2)
 {
     std::cout << "IO" << std::endl;
+}
+
+void IO::sweepUpAndDown()
+{
+    int ogNote = currentMidiInStream;
+    while(currentMidiInStream < 127)
+    {
+        ++currentMidiInStream;
+    }
+    while(currentMidiInStream > ogNote)
+    {
+        --currentMidiInStream;
+    }
+    std::cout << "swept from " << ogNote << " to the top and back down" << std::endl;
 }
 
 bool IO::getStatus()
@@ -636,11 +799,21 @@ struct Synth
     bool makeSound(Oscillator osc2, IO io2);
     void pitchBend(Oscillator osc3, int numIntervals);
     void processMidi(IO io3, int midiNoteNumber);
+    void fadeOut(Oscillator osc1);
 };
 
 Synth::Synth()
 {
     std::cout << "Synth" << std::endl;
+}
+
+void Synth::fadeOut(Oscillator osc1)
+{
+    while(osc1.amplitude > 0)
+    {
+        osc1.amplitude -= 0.01f;
+    }
+    std::cout << "synth is silent" << std::endl;
 }
 
 bool Synth::makeSound(Oscillator osc2, IO io2)
@@ -701,61 +874,73 @@ int main()
     st1.playMusic("Remedy Lane", 1);
     st1.boostBass(7);
     st1.dubTapes(tp2);
+    st1.destroyTheBass();
 
     // Tape
     tp1.rewind(false, 50);
     tp1.fastForward(true, 40);
     tp1.getTitle();
+    tp1.splice(27);
 
     // Military
     mt.spendMoney ("Contract 007", 50000000.57f);
     mt.defend (7256);
     mt.invade (234676,7);
+    mt.catch22(28);
 
     // Soldier
     soldier.readyForCombat(160.4f, 4);
     soldier.constructShelter(45, "sunny");
     soldier.skillsAndRank("hand to hand combat", "corporal");
+    soldier.weightGainFromPushups(200);
 
     // House
     newHouse.heatInterior(80);
     newHouse.houseCharacteristics();
     newHouse.processSewage(20.0f, true);
+    newHouse.changeTemp(20,90);
 
     // Plane
     pl1.transportCargo(175.3);
     pl1.sellAlcohol(8, 4.99f);
     pl1.fly(127, 5000.0f, true);
+    pl1.cleanSeats(234);
 
     // Filter
     newFilter.highPass(80.0f, -12);
     newFilter.lowPass(14000.0f, -6);
     newFilter.isClipping(7.5f);
+    newFilter.envelopeFilter(50.0f, 1750.0f);
 
     // Effects
     effectInstance.distort(6.0f);
     effectInstance.bitCrush(10);
     effectInstance.delay(9);
+    effectInstance.crushLess(24);
 
     // Oscillater
     osc3.noteName(74);
     osc3.modWheel(0.8f);
     osc3.volumePedal(0.4f);  
+    osc3.portamento(5000.0f);
 
     // Envelope
     envelope1.adjustAttack(3.5f);
     envelope1.adjustSustain(2.3f);
     envelope1.adjustRelease(64.0f);
+    envelope1.extendAttack(1000.0f);
 
     // IO
     ioTest.getStatus();
     ioTest.inputStatus(1);
     ioTest.processMidi(10);
+    ioTest.sweepUpAndDown();
 
     // Synth
     awesomeSynth.makeSound(osc3, ioTest);
     awesomeSynth.pitchBend(osc4, 4);
     awesomeSynth.processMidi(ioTest, 72);
+    awesomeSynth.fadeOut(osc4);
 
     std::cout << "good to go!" << std::endl;
 }
