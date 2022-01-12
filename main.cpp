@@ -330,7 +330,7 @@ void Military::Soldier::skillsAndRank(std::string primarySkill, std::string curr
 float Military::Soldier::weightGainFromPushups(int numPushups)
 {
     float weightGained = 0.0f;
-    for (int i = 1; i < numPushups; i++)
+    for (int i = 1; i < numPushups; ++i)
     {
         if(i % 5 == 0)
         {
